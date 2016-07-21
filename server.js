@@ -12,26 +12,15 @@ var connection = mysql.createConnection({
   password : '%s^lvRMR7t(1'
 });
 
-// app.use(bodyParser.urlencoded({ extended: true }));
-// app.use(bodyParser.json());
-
 var port = process.env.PORT || 8080;
 
 app.use(express.static(__dirname + '/public'));
 
-// connection.query('CREATE TABLE IF NOT EXISTS apps_justin.articles('
-//     + 'id INT NOT NULL AUTO_INCREMENT,'
-//     + 'PRIMARY KEY(id),'
-//     + 'title VARCHAR(30),'
-//     + 'body VARCHAR(300),'
-//     + 'author VARCHAR(30)'
-//     +  ')', function (err) {
-//         if (err) throw err;
-//     });
 
 app.use(bodyParser.json({extended: true}))
 var router = express.Router();
 
+app.use('/', router);
 
 router.get('/articles', function(req, res) {
     connection.query('SELECT * FROM apps_justin.articles;', function (err, rows, fields) {
@@ -40,8 +29,6 @@ router.get('/articles', function(req, res) {
       res.send(rows);
     });
 });
-
-app.use('/', router);
 
 router.post('/articles', function (req, res) {
   const title = req.body.title;
@@ -55,8 +42,18 @@ router.post('/articles', function (req, res) {
     connection.query('INSERT INTO apps_justin.articles SET ?', post, 
         function (err, results) {
             if (err) throw err;
-            console.log(results);
-            res.send(rows);
+            res.send(results);
+        }
+    );
+});
+
+router.delete('/articles/:articleID', function(req, res) {
+	const articleID = req.params.articleID;
+	console.log(req.params);
+	connection.query('DELETE FROM `apps_justin`.`articles` WHERE `articleID`='+articleID+'', 
+        function (err, results) {
+            if (err) throw err;
+            res.send(results);
         }
     );
 });

@@ -6,13 +6,18 @@
 
     <title>Node/Angular article App</title>
 
+    <link rel="stylesheet" type="text/css" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="icon" href="https://cdn2.iconfinder.com/data/icons/nodejs-1/128/nodejs-128.png" type="image/x-icon">
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+
     <style>
         html                    { overflow-y:scroll; }
-        body                    { padding-top:50px; }
+        body                    { padding-top:50px; margin-bottom: 20px;}
         #article-list              { margin-bottom:30px; }
         .boxes                  { border: 2px solid black; margin: 2px; width: 32%; overflow-y: hidden; height: 230px;}
         .content { background-color: rgba(5,5,5,0.1);}
+        .delete, .edit { font-size: 20px; float: right; cursor: pointer; margin-top: 5px;}
+        /*.edit { font-size: 20px; float: right; margin-right: 5px; margin-top: 5px;}*/
     </style>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -23,21 +28,18 @@
 <body ng-controller="mainController" data-ng-init="getArticles()">
     <div class="container">
         <div class="jumbotron text-center">
-            <h1>Articles Crud<span class="label label-info">{{ articles.length }}</span></h1>
+            <h1><span class="label label-info">{{ articles.length }}</span> <p>Crud Articles</p></h1>
         </div>
         <div id="article-list" class="row">
 
                 <div class="col-sm-4 boxes" ng-repeat="article in articles">
-                    <!-- <label>
-                        <input type="checkbox" ng-click="deletearticle(article.id)">  -->
-
-                            <h4>Title:</h4> <div class="content">{{ article.title }}</div>
-                            <h4>Author:</h4> <div class="content">{{ article.author }}</div>
-                            <h4>Content:</h4> <div class="content">{{ article.body }}</div>
-                    <!-- </label> -->
+                    <div class="delete fa fa-trash-o" ng-click="deleteArticle(article.articleID)"></div>
+                    <div class="edit fa fa-pencil" ng-click="enableEditor(article.articleID)"></div>
+                    <input ng-model="editableTitle" ng-show="editorEnabled">
+                        <h4>Title:</h4> <div class="content">{{ article.title }}</div>
+                        <h4>Author:</h4> <div class="content">{{ article.author }}</div>
+                        <h4>Content:</h4> <div class="content">{{ article.body }}</div>
                 </div>
-
-            <!-- </div> -->
         </div>
 
         <div id="article-form" class="row">
