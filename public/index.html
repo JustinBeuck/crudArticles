@@ -16,7 +16,7 @@
         #article-list              { margin-bottom:30px; }
         .boxes                  { border: 2px solid black; margin: 2px; width: 32%; overflow-y: hidden; height: 230px;}
         .content { background-color: rgba(5,5,5,0.1);}
-        .delete, .edit { font-size: 20px; float: right; cursor: pointer; margin-top: 5px;}
+        .delete, .edit { font-size: 20px; float: right; cursor: pointer; margin-top: 5px; margin-right: 5px;}
         /*.edit { font-size: 20px; float: right; margin-right: 5px; margin-top: 5px;}*/
     </style>
 
@@ -35,7 +35,7 @@
                 <div class="col-sm-4 boxes" ng-repeat="article in articles">
                     <div class="delete fa fa-trash-o" ng-click="deleteArticle(article.articleID)"></div>
                     <div class="edit fa fa-pencil" ng-click="enableEditor(article.articleID)"></div>
-                    <input ng-model="editableTitle" ng-show="editorEnabled">
+                    <input ng-model="editableArticle" ng-show="editorEnabled" placeholder="">
                         <h4>Title:</h4> <div class="content">{{ article.title }}</div>
                         <h4>Author:</h4> <div class="content">{{ article.author }}</div>
                         <h4>Content:</h4> <div class="content">{{ article.body }}</div>

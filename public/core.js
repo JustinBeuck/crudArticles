@@ -51,7 +51,7 @@ function mainController($scope, $http) {
 
     $scope.enableEditor = function() {
         $scope.editorEnabled = true;
-        $scope.editableTitle = $scope.title;
+        $scope.editableArticle = $scope.articles;
     };
   
     $scope.disableEditor = function() {
