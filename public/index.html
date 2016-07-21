@@ -17,7 +17,6 @@
         .boxes                  { border: 2px solid black; margin: 2px; width: 32%; overflow-y: hidden; height: 230px;}
         .content { background-color: rgba(5,5,5,0.1);}
         .delete, .edit { font-size: 20px; float: right; cursor: pointer; margin-top: 5px; margin-right: 5px;}
-        /*.edit { font-size: 20px; float: right; margin-right: 5px; margin-top: 5px;}*/
     </style>
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
@@ -33,16 +32,20 @@
         <div id="article-list" class="row">
 
                 <div class="col-sm-4 boxes" ng-repeat="article in articles">
-                    <div class="delete fa fa-trash-o" ng-click="deleteArticle(article.articleID)"></div>
-                    <div class="edit fa fa-pencil" ng-click="enableEditor(article.articleID)"></div>
-                    <input ng-model="editableArticle" ng-show="editorEnabled" placeholder="">
-                        <h4>Title:</h4> <div class="content">{{ article.title }}</div>
-                        <h4>Author:</h4> <div class="content">{{ article.author }}</div>
-                        <h4>Content:</h4> <div class="content">{{ article.body }}</div>
+                    <div class="delete fa fa-trash-o" ng-click="deleteArticle(article.articleID)" ng-hide="editorEnabled"></div>
+                    <div class="edit fa fa-pencil" ng-click="enableEditor(article.articleID)" ng-hide="editorEnabled"></div>
+                        <h4>Title:</h4> <div class="content" ng-hide="editorEnabled">{{ article.title }}</div>
+                        <input ng-model="formData.title" ng-show="editorEnabled" style="width: 75%">
+                        <h4>Author:</h4> <div class="content" ng-hide="editorEnabled">{{ article.author }}</div>
+                        <input ng-model="formData.author" ng-show="editorEnabled" style="width: 75%">
+                        <h4>Content:</h4> <div class="content" ng-hide="editorEnabled">{{ article.body }}</div>
+                        <textarea ng-model="formData.content" ng-show="editorEnabled" style="width: 75%"></textarea>
+                        <button type="submit" class="btn btn-primary btn-sm" ng-click="disableEditor()" ng-show="editorEnabled" style="float: right; font-size: 7px;">Cancel</button>
+                        <button type="submit" class="btn btn-primary btn-sm" ng-click="updateArticle(article.articleID)" ng-show="editorEnabled" style="float: right; font-size: 7px;">Save</button>
                 </div>
         </div>
 
-        <div id="article-form" class="row">
+        <div id="article-form" class="row" ng-hide="editorEnabled">
             <div class="col-lg-12 text-center">
                 <form>
                     <div class="form-group">

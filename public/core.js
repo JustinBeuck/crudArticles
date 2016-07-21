@@ -15,17 +15,6 @@ function mainController($scope, $http) {
             });
     }
 
-    $scope.getArticle = function() {
-        $http.get('/articles/'+ id)
-            .success(function(data) {
-                $scope.articles = data;
-                console.log(data);
-            })
-            .error(function(data) {
-                console.log('Error: ' + data);
-            });
-    }
-
     $scope.createArticle = function() {
         $http.post('/articles', $scope.formData)
             .success(function(data) {
@@ -49,13 +38,37 @@ function mainController($scope, $http) {
             });
     };
 
-    $scope.enableEditor = function() {
+    $scope.updateArticle = function(id) {
+        $http.put('/articles/' + id, $scope.formData)
+            .success(function(data) {
+                $scope.formData = {};
+                $scope.articles = data;
+                $scope.disableEditor();
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
+    };
+
+    $scope.enableEditor = function(id) {
         $scope.editorEnabled = true;
-        $scope.editableArticle = $scope.articles;
+        $http.get('/articles/'+ id)
+            .success(function(data) {
+                $scope.articles = data;
+                $scope.formData = {
+                    title: data[0].title,
+                    content: data[0].body,
+                    author : data[0].author
+                }
+            })
+            .error(function(data) {
+                console.log('Error: ' + data);
+            });
     };
   
     $scope.disableEditor = function() {
         $scope.editorEnabled = false;
+        $scope.getArticles();
     };
 
 }
